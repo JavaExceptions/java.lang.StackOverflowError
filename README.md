@@ -8,9 +8,10 @@ Gerando o thread dumps da JVM em tempo de runtime manualmente:
 
   $ jstack -F -l <PID> > /tmp/jvm_thread.dump
 
-  O formato texto pode ser aberto com as ferramentas: jVisualVM (JDK), IBM Thread Analizer [ref:1] ou qualquer outro profiler Java que reconheça dump de threads Java.
+  O formato texto pode ser aberto com as ferramentas: jVisualVM (JDK), Samurai [ref:1], TDA - Thread Dump Analyzer [ref:2], IBM Thread Analizer [ref:1] ou qualquer outro profiler Java que reconheça dump de threads Java.
 
-  [1] 
+  [1] http://yusuke.homeip.net/samurai/en/samurai.jar 
+  [2] https://java.net/projects/tda
 
   Para o dump de threads é importante conhecer um pouco sobre a execução de threads na plataforma Java: sincronização, pilha de execução, thread monitor, thread status (WAINTING, RUNNING, BLOCKED, etc). Com a ferramenta certa e com um pouco de paciência é possível chegar a tão desejada causa raiz do problema: nome da classe, nome do método, nome da biblioteca ou até mesmo a linha de código que causa ou influência o crash do processo Java.
 
