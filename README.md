@@ -21,3 +21,24 @@ NOTAS:
     Para que o comando gcore (invocado pela JVM após o evento de erro) funcione é necessário que o pacote gdb (A GNU source-level debugger for C, C++, Fortran and other languages) esteja devidamente instalado no Sistema Operacional.
     O procedimento acima causam o travamento das threads (equivalente ao efeito Stop The World do FullGC). Portanto utilize com cautela em ambiente de produção!
 
+--------------------
+# http://stackoverflow.com/questions/65200/how-do-you-crash-a-jvm
+# http://middlewaremagic.com/weblogic/?p=4482
+
+These are just normal exceptions. To really crash a VM there are 3 ways:
+
+Use JNI and crash in the native code.
+If no security manager is installed you can use reflection to crash the VM. This is VM specific, but normally a VM stores a bunch of pointers to native resources in private fields (e.g. a pointer to the native thread object is stored in a long field in java.lang.Thread). Just change them via reflection and the VM will crash sooner or later.
+All VMs have bugs, so you just have to trigger one.
+For the last method I have a short example, which will crash a Sun Hotspot VM quiet nicely:
+
+public class Crash {
+    public static void main(String[] args) {
+        Object[] o = null;
+
+        while (true) {
+            o = new Object[] {o};
+        }
+    }
+}
+This leads to a stack overflow in the GC so you will get no StackOverflowError but a real crash including a hs_err* file.
